@@ -1,6 +1,6 @@
 # Medium Articles
 
-File:
+Files:
 
 - flask_app.zip [Deploying a Flask App to AWS Elastic Beanstalk](https://medium.com/@malex140/deploying-a-flask-app-to-aws-elastic-beanstalk-f320033fda3c)
 
