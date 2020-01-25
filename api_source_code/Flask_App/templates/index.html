@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>Home Page - Cryptolytic</title>
+    </head>
+    <body>
+        <center>
+        <h1> Cryptolytic </h1>
+    <div>
+        <h3> Crypto Price Prediction </h3>
+    <form action="/crypto" method="POST">
+        <select name="exchange">
+            <option value="coinbase_pro">Coinbase Pro</option>
+            <option value="bitfinex">Bitfinex</option>
+            <option value="hitbtc">HitBTC</option>
+        </select>
+        <br>
+        <br>
+        <select name="trading_pair">
+            <option value="btc_usd">BTC/USD</option>
+            <option value="eth_usd">ETH/USD</option>
+            <option value="ltc_usd">LTC/USD</option>
+        </select>
+        <br>
+        <br>
+        <input type='submit' value="Submit">
+    </form>
+        <h3> Arbitrage </h3>
+     <form action="/arb" method="POST">
+        <select name="exchange_1">
+            <option value="coinbase_pro">Coinbase Pro</option>
+            <option value="bitfinex">Bitfinex</option>
+            <option value="hitbtc">HitBTC</option>
+        </select>
+        <br>
+        <br>
+        <select name="exchange_2">
+            <option value="coinbase_pro">Coinbase Pro</option>
+            <option value="bitfinex">Bitfinex</option>
+            <option value="hitbtc">HitBTC</option>
+        </select>
+        <br>
+        <br>
+        <select name="trading_pair">
+            <option value="btc_usd">BTC/USD</option>
+            <option value="eth_usd">ETH/USD</option>
+            <option value="ltc_usd">LTC/USD</option>
+            <option value="eth_btc">ETH/BTC</option>
+            <option value="ltc_btc">LTC/BTC</option>
+        </select>
+        <br>
+        <br>
+        <input type='submit' value="Submit">
+    </form>
+    </div>
+            <br><br>
+         <h3> 
+            This is not financial advice!
+         </h3>
+         <h3>The information and insights provided in this product do not guarantee financial gains</h3>
+         <h3> and users who use the information in this product agree to do so at their own risk.</h3>
+        </center>
+    </body>
+</html>
