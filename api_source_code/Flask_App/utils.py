@@ -3,7 +3,7 @@ import psycopg2 as ps
 import datetime as dt
 from datetime import datetime
 from dateutil import tz
-# from config import aws_access_key_id, aws_secret_access_key, POSTGRES_DBNAME, POSTGRES_PASSWORD, POSTGRES_USERNAME, POSTGRES_PORT, POSTGRES_ADDRESS
+from config import POSTGRES_DBNAME, POSTGRES_PASSWORD, POSTGRES_USERNAME, POSTGRES_PORT, POSTGRES_ADDRESS, API_KEY
 """ Functions for Flask App """
 
 # dict with available exchange/trading pair for trade predictions
@@ -12,12 +12,13 @@ exchanges={'bitfinex': ['btc_usd', 'eth_usd', 'ltc_usd'],
            'hitbtc': ['btc_usdt', 'eth_usdt', 'ltc_usdt']}
 
 # Insert DB Credentials - Don't push to GH
-credentials = {'POSTGRES_ADDRESS': '',
-               'POSTGRES_PORT': '',
-               'POSTGRES_USERNAME': '',
-               'POSTGRES_PASSWORD': '',
-               'POSTGRES_DBNAME': '',
-               'API_KEY': ''}
+credentials = {'POSTGRES_ADDRESS': POSTGRES_ADDRESS,
+               'POSTGRES_PORT': POSTGRES_PORT,
+               'POSTGRES_USERNAME': POSTGRES_USERNAME,
+               'POSTGRES_PASSWORD': POSTGRES_PASSWORD,
+               'POSTGRES_DBNAME': POSTGRES_DBNAME,
+               'API_KEY': API_KEY
+               }
 
 
 # dictionary used to rename column values with correct time period
