@@ -1,6 +1,7 @@
 import os
 import environ
 
+# to read .env file in pycharm ide
 env = environ.Env.read_env()
 
 POSTGRES_ADDRESS = os.getenv("POSTGRES_ADDRESS")

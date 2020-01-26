@@ -6,6 +6,7 @@ from utils import create_conn, retrieve_one_trp, credentials, retrieve_one_arb, 
 
 application = Flask(__name__)
 
+# default limit for each route
 limiter = Limiter(
     application,
     key_func=get_remote_address,
