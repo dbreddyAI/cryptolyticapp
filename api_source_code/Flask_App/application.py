@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, render_template
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from utils import create_conn, retrieve_one_trp, credentials, retrieve_one_arb, retrieve_arb_pred, retrieve_tr_pred
-
+from display import display_tr_pred, display_arb_pred
 
 application = Flask(__name__)
 
@@ -23,6 +23,22 @@ def index():
 def api():
     """API Documentation"""
     return render_template('public/api_doc.html')
+
+
+@application.route('/display_tr', methods=['POST'])
+def display_tr():
+    """Display a table of ALL trade recommender results"""
+
+    df = display_tr_pred()
+    return render_template('public/display_tr.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
+
+
+@application.route('/display_arb', methods=['POST'])
+def display_arb():
+    """Display a table of ALL arbitrage prediction results"""
+
+    df = display_arb_pred()
+    return render_template('public/display_arb.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
 
 
 @application.route('/trade_rec', methods=['GET', 'POST'])

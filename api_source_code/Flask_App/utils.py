@@ -60,7 +60,7 @@ def retrieve_one_trp(exchange, trading_pair, model_periods):
     conn, cur = create_conn(credentials)
 
     # Change limit number to whatever amount of rows you want to retrieve
-    cur.execute("""SELECT * FROM prediction.trp
+    cur.execute("""SELECT * FROM tr_pred
                     WHERE exchange = '{exchange}'
                     AND trading_pair = '{trading_pair}'
                     ORDER by p_time desc limit 1;""".format(trading_pair=trading_pair, exchange=exchange))
@@ -157,7 +157,7 @@ def retrieve_tr_pred():
     conn, cur = create_conn(credentials)
 
     # Gets last 20 prediction results from trp table
-    cur.execute("""SELECT * FROM prediction.trp
+    cur.execute("""SELECT * FROM tr_pred
                     ORDER by p_time desc limit 500;""")
 
     result = cur.fetchall()

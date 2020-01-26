@@ -1,0 +1,46 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Recommendation Result!{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+             <head>
+                <meta charset="UTF-8">
+                <title>Title</title>
+            </head>
+                <body>
+
+                    {% for table in tables %}
+                    {{titles[loop.index]}}
+                    {{ table|safe }}
+                    {% endfor %}
+                </body>
+
+        </div>
+    </div>
+</div>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+                <style>
+                table {
+                  border-collapse: collapse;
+                  border-spacing: 0;
+                  width: 100%;
+                  border: 1px solid #ddd;
+                }
+
+                th, td {
+                  text-align: left;
+                  padding: 16px;
+                }
+
+                tr:nth-child(even) {
+                  background-color: #f2f2f2;
+                }
+                </style>
+
+{% endblock %}
