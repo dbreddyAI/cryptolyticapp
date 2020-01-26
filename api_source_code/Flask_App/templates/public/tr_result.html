@@ -1,15 +1,21 @@
-<html>
-    <body>
-    	<center>
-        <h1>Prediction</h1>
-        <div>
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Recommendation Time!{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
 
             <p>Time - {{ results['p_time'][0] }} PST</p>
             <p>Exchange - {{ results['exchange'][0] }}</p>
             <p>Pairing - {{ results['trading_pair'][0] }}</p>
             <p>Time Frame - {{ results['period'] }}</p>
             <p>Result - {{ results['prediction'][0] }}</p>
-    	</div>
-     </center>
-    </body>
-</html>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

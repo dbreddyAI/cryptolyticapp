@@ -15,7 +15,7 @@ limiter = Limiter(
 @application.route('/')
 def index():
     """Homepage"""
-    return render_template('public/index2.html')
+    return render_template('public/index.html')
 
 
 @application.route('/api')
