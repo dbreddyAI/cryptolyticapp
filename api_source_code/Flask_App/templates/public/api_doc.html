@@ -1,6 +1,6 @@
 {% extends "public/templates/public_template.html" %}
 
-{% block title %}Recommendation Time!{% endblock %}
+{% block title %}API{% endblock %}
 
 {% block main %}
 
@@ -12,12 +12,12 @@
             <br><br>
             <h2>Introduction</h2>
                 <h3>Welcome to the Cryptolytic API documentation. The API’s are split into two categories: trading and arbitrage, which are both public.</h3>
-
-            <br><br>
+            <hr>
+            <br>
             <h2>API</h2>
                 <p>The Cryptolytic public API endpints can be accessed at the URL:
                     cryptolyticapp.com</p>
-            <br>
+            <br><hr>
             <h2>Requests</h2>
                 <h5>All requests and responses are json content type and follow typical HTTP response status codes for success and failure.</h5>
                 <br>
@@ -54,12 +54,12 @@
                   </tr>
                 </table>
 
-            <br>
+            <br><hr>
             <h2>Types</h2>
                 <h5>Timestamps</h5>
                     <p>Unless otherwise specified, all timestamps from API are returned in PST to the second. Make sure
                         you can parse the following PST format. Most modern languages and libraries will handle this without issues.</p>
-            <br>
+            <br><hr>
             <h2>Rate Limits</h2>
                 <h5>Trading API</h5>
                     <p>We throttle public endpoints by IP: 60 requests per minute. When a rate limit is exceeded, a
@@ -68,7 +68,7 @@
                     <p>We throttle public endpoints by IP: 60 requests per minute. When a rate limit is exceeded, a
                         status of 429 Too Many Requests will be returned.</p>
 
-            <br>
+            <br><hr>
             <h2>Trade API</h2>
                 <p>Information about the latest trade opportunities. </p>
                 <h5>HTTP Request</h5>
@@ -104,7 +104,7 @@
                   </tr>
                 </table>
 
-            <br>
+            <br><hr>
                 <h2>Arbitrage API</h2>
                     <p>Information about the latest arbitrage opportunities. </p>
                     <h5>HTTP Request</h5>
