@@ -4,7 +4,6 @@ import datetime as dt
 from datetime import datetime
 from dateutil import tz
 # from config import aws_access_key_id, aws_secret_access_key, POSTGRES_DBNAME, POSTGRES_PASSWORD, POSTGRES_USERNAME, POSTGRES_PORT, POSTGRES_ADDRESS
-
 """ Functions for Flask App """
 
 # dict with available exchange/trading pair for trade predictions

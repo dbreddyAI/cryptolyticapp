@@ -6,97 +6,84 @@ from utils import create_conn, retrieve_one_trp, credentials, retrieve_one_arb, 
 
 application = Flask(__name__)
 
-
-@application.route('/')
-def index():
-    """Homepage"""
-    return render_template('index.html') 
-
 limiter = Limiter(
     application,
     key_func=get_remote_address,
     default_limits=["200 per day", "50 per hour"]
 )
 
-# testing rate limit
-@application.route('/ratelimittest')
-@limiter.limit("60 per minute")
-def slow():
-    return "rate limit"
+@application.route('/')
+def index():
+    """Homepage"""
+    return render_template('public/index2.html')
 
 
-@application.route('/crypto', methods=['POST'])
+@application.route('/api')
+def api():
+    """API Documentation"""
+    return render_template('public/api_doc.html')
+
+
+@application.route('/trade_rec', methods=['GET', 'POST'])
 def crypto_trade_predictions():
     """ Takes in data from crypto exchanges and returns an output for whether
         the model predicts the price of a coin will go up or down in the next
         1 hour period.
-
-        Supported Exchange/Trading Pairs:
-            - bitfinex
-                - 'btc_usd'
-                - 'eth_usd'
-                - 'ltc_usd'
-            - coinbase_pro
-                - 'btc_usd'
-                - 'eth_usd'
-                - 'ltc_usd'
-            - hitbtc
-                - 'btc_usdt'
-                - 'eth_usdt'
-                - 'ltc_usdt'
-
-        Sample request:
-        post = { "exchange" : "bitfinex",
-                 "trading_pair" : "btc_usd" }
         """
+    if request.method == 'POST':
 
-    # dictionary for model periods
-    model_periods = {'bitfinex_ltc_usd': '24 Hours',
-                     'bitfinex_btc_usd': '20 Hours',
-                     'bitfinex_eth_usd': '20 Hours',
-                     'hitbtc_ltc_usdt': '24 Hours',
-                     'hitbtc_btc_usdt': '6 Hours',
-                     'hitbtc_eth_usdt': '24 Hours',
-                     'coinbase_pro_btc_usd': '16 Hours',
-                     'coinbase_pro_eth_usd': '16 Hours',
-                     'coinbase_pro_ltc_usd': '16 Hours'}
+        # dictionary for model periods
+        model_periods = {'bitfinex_ltc_usd': '24 Hours',
+                         'bitfinex_btc_usd': '20 Hours',
+                         'bitfinex_eth_usd': '20 Hours',
+                         'hitbtc_ltc_usdt': '24 Hours',
+                         'hitbtc_btc_usdt': '6 Hours',
+                         'hitbtc_eth_usdt': '24 Hours',
+                         'coinbase_pro_btc_usd': '16 Hours',
+                         'coinbase_pro_eth_usd': '16 Hours',
+                         'coinbase_pro_ltc_usd': '16 Hours'}
 
-    # request data
-    exchange = request.form.get('exchange')
-    trading_pair = request.form.get('trading_pair')
+        # request data
+        exchange = request.form.get('exchange')
+        trading_pair = request.form.get('trading_pair')
 
-    # HitBTC needs a t at the end for usd pairings
-    if exchange == 'hitbtc':
-        trading_pair = trading_pair + 't'
+        # HitBTC needs a t at the end for usd pairings
+        if exchange == 'hitbtc':
+            trading_pair = trading_pair + 't'
 
-    predictions = retrieve_one_trp(exchange, trading_pair, model_periods)
+        predictions = retrieve_one_trp(exchange, trading_pair, model_periods)
 
-    return render_template("result.html", results=predictions)
+        return render_template("public/tr_result.html", results=predictions)
+    elif request.method == 'GET':
+        return render_template('public/tr_form.html')
 
 
 # Route for arbitrage prediction
-@application.route('/arb', methods=['POST'])
+@application.route('/arb', methods=['GET', 'POST'])
 def arbritage_predictions():
     """ Function getting user input and returning arbitrage prediction """
 
-    # request data
-    exchange_1 = request.form.get('exchange_1')
-    exchange_2 = request.form.get('exchange_2')
-    trading_pair = request.form.get('trading_pair')
+    if request.method == 'POST':
+        # request data
+        exchange_1 = request.form.get('exchange_1')
+        exchange_2 = request.form.get('exchange_2')
+        trading_pair = request.form.get('trading_pair')
 
-    # Hitbtc don't have usd pairs
-    if exchange_1 == 'hitbtc':
-        if trading_pair.split('_')[1] == 'usd':
-            trading_pair = trading_pair + 't'
-    if exchange_2 == 'hitbtc':
-        if trading_pair.split('_')[1] == 'usd':
-            trading_pair = trading_pair + 't'
+        # Hitbtc don't have usd pairs
+        if exchange_1 == 'hitbtc':
+            if trading_pair.split('_')[1] == 'usd':
+                trading_pair = trading_pair + 't'
+        if exchange_2 == 'hitbtc':
+            if trading_pair.split('_')[1] == 'usd':
+                trading_pair = trading_pair + 't'
 
-    predictions = retrieve_one_arb(exchange_1, exchange_2, trading_pair)
-    try:
-        return render_template("resultarb.html", results=predictions)
-    except:
-        return render_template('error.html')
+        predictions = retrieve_one_arb(exchange_1, exchange_2, trading_pair)
+        try:
+            return render_template("public/arb_result.html", results=predictions)
+        except:
+            return render_template('public/error.html')
+    elif request.method == 'GET':
+        return render_template('public/arb_form.html')
 
 
 @application.route('/trade', methods=['GET'])

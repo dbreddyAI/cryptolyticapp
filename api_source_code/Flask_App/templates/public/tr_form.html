@@ -1,0 +1,35 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Recommendation Time!{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <h1>Trade Recommender!</h1>
+            <hr>
+
+            <form action="/trade_rec" method="POST">
+        <select name="exchange">
+            <option value="coinbase_pro">Coinbase Pro</option>
+            <option value="bitfinex">Bitfinex</option>
+            <option value="hitbtc">HitBTC</option>
+        </select>
+        <br>
+        <br>
+        <select name="trading_pair">
+            <option value="btc_usd">BTC/USD</option>
+            <option value="eth_usd">ETH/USD</option>
+            <option value="ltc_usd">LTC/USD</option>
+        </select>
+        <br>
+        <br>
+        <input type='submit' value="Submit">
+    </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
