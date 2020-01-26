@@ -10,7 +10,7 @@ Work in progress
 # Table of Contents
 1. [Quick Rundown](#sum)
 2. [Flask App Endpoints](#endpoints)
-3. [Deployment on AWS EB](#EB Deployment)
+3. [Deployment on AWS EB](#deployment)
 4. [Built With](#dependency)
 5. [What's Next](#next)
 
@@ -67,7 +67,7 @@ Returns: ``` {"results":"{
 'prediction': 'result'}
 ]} ```
 
-## Deployment Instruction for AWS Elastic Beanstalk <a name="EB Deployment"></a>
+## Deployment Instruction for AWS Elastic Beanstalk <a name="deployment"></a>
 Follow this guide for now [Medium Article](https://medium.com/analytics-vidhya/deploying-a-flask-app-to-aws-elastic-beanstalk-f320033fda3c)
 
 ## Built With <a name="dependency"></a>
