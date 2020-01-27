@@ -1,4 +1,4 @@
-# Flask App Documentation  <img src="https://www.clipartkey.com/mpngs/m/145-1450071_flask-python-logo-transparent.png"  width="120" height="120">
+# Flask App Documentation <img align="right" src="https://www.clipartkey.com/mpngs/m/145-1450071_flask-python-logo-transparent.png" width="120" height="120">
 
 
 [Current Deployment Link](http://cryptolytic-env.niu7nzrmmi.us-east-1.elasticbeanstalk.com)
