@@ -69,8 +69,10 @@ def crypto_trade_predictions():
             trading_pair = trading_pair + 't'
 
         predictions = retrieve_one_trp(exchange, trading_pair, model_periods)
-
-        return render_template("public/tr_result.html", results=predictions)
+        try:
+            return render_template("public/tr_result.html", results=predictions)
+        except:
+            return render_template('public/error.html')
     elif request.method == 'GET':
         return render_template('public/tr_form.html')
 

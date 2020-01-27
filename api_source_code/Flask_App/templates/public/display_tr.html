@@ -5,12 +5,27 @@
 {% block main %}
 
 <div class="container">
+
+    <div class="row">
+        <div class="col1">
+            <form action="/trade_rec" method="POST">
+                <select name="trading_pair">
+                <option value="btc_usd">BTC/USD</option>
+                <option value="eth_usd">ETH/USD</option>
+                <option value="ltc_usd">LTC/USD</option>
+                </select>
+
+                <input type='submit' value="Submit">
+
+            </form>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col">
 
             <head>
                 <meta charset="UTF-8">
-                <title>Title</title>
             </head>
                 <body>
                     {% for table in tables %}
