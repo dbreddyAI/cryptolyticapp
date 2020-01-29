@@ -6,6 +6,7 @@
 # It generates predictions with all trade recommender models from an S3 bucket
 # and inserts them into the trp table under the prediction schema in the database.
 # The function is set to run every 10 mins on a trigger.
+# Edit Config MemorySize: 256, Timeout: 175
 
 # imports
 import pandas as pd
@@ -47,12 +48,12 @@ model_periods = {model : period for model, period in zip(models,periods)}
 # POSTGRES_DBNAME = os.environ['POSTGRES_DBNAME']
 
 # # fill in credentials
-# credentials = {'POSTGRES_ADDRESS': POSTGRES_ADDRESS,
-#                 'POSTGRES_PORT': POSTGRES_PORT,
-#                 'POSTGRES_USERNAME': POSTGRES_USERNAME,
-#                 'POSTGRES_PASSWORD': POSTGRES_PASSWORD,
-#                 'POSTGRES_DBNAME': POSTGRES_DBNAME
-#                 }
+credentials = {'POSTGRES_ADDRESS': POSTGRES_ADDRESS,
+                'POSTGRES_PORT': POSTGRES_PORT,
+                'POSTGRES_USERNAME': POSTGRES_USERNAME,
+                'POSTGRES_PASSWORD': POSTGRES_PASSWORD,
+                'POSTGRES_DBNAME': POSTGRES_DBNAME
+                }
 
 def create_conn(credentials):
     """Creates database connection and returns connection and cursor"""

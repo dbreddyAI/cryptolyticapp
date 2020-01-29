@@ -25,7 +25,7 @@ Two type of predictions:
 - Trading Price Movement Predictions 
 - Arbitrage Predictions
 
-Our application has eight routes with rate limiting and depends on two `.py` files. 
+Our application has six routes with rate limiting and depends on two `.py` files. 
 - config.py - gets environment variable for aws credentials(`.env`)
 - utils.py - functions that retrieves prediction data from a AWS RDS Database
 
@@ -37,12 +37,6 @@ A `homepage` render template
  
 ### API Documentation - [/api]
 A `api` doc render template page
-
-### Display Trade Predictions - [/display_tr]
-A `DF Table` of trade predictions render template
-
-### Display Arbitrage Predictions - [/display_arb]
-A `DF Table` render template
 
 ### Trade Prediction - [/trade_rec]
 Returns this endpoint if user requested trade predictions

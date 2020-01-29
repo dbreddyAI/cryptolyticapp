@@ -7,21 +7,6 @@
 <div class="container">
 
     <div class="row">
-        <div class="col1">
-            <form action="/trade_rec" method="POST">
-                <select name="trading_pair">
-                <option value="btc_usd">BTC/USD</option>
-                <option value="eth_usd">ETH/USD</option>
-                <option value="ltc_usd">LTC/USD</option>
-                </select>
-
-                <input type='submit' value="Submit">
-
-            </form>
-        </div>
-    </div>
-
-    <div class="row">
         <div class="col">
 
             <head>
@@ -29,14 +14,28 @@
             </head>
                 <body>
                     {% for table in tables %}
-                    {{titles[loop.index]}}
+                    {{[loop.index]}}
                     {{ table|safe }}
                     {% endfor %}
                 </body>
-
+            <br>
+            <img src="https://github.com/Cryptolytic-app/cryptolytics/blob/master/api_source_code/img/cbp_btc_usd.png?raw=true"
+     alt="crypto" style="width:50%;">
+            <br><br>
         </div>
     </div>
 </div>
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <style>

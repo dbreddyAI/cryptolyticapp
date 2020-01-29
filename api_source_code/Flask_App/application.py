@@ -25,22 +25,6 @@ def api():
     return render_template('public/api_doc.html')
 
 
-@application.route('/display_tr', methods=['POST'])
-def display_tr():
-    """Display a table of ALL trade recommender results"""
-
-    df = display_tr_pred()
-    return render_template('public/display_tr.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
-
-
-@application.route('/display_arb', methods=['POST'])
-def display_arb():
-    """Display a table of ALL arbitrage prediction results"""
-
-    df = display_arb_pred()
-    return render_template('public/display_arb.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
-
-
 @application.route('/trade_rec', methods=['GET', 'POST'])
 def crypto_trade_predictions():
     """ Takes in data from crypto exchanges and returns an output for whether
@@ -74,7 +58,8 @@ def crypto_trade_predictions():
         except:
             return render_template('public/error.html')
     elif request.method == 'GET':
-        return render_template('public/tr_form.html')
+        df = display_tr_pred()
+        return render_template('public/display_tr.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
 
 
 # Route for arbitrage prediction
@@ -102,7 +87,8 @@ def arbritage_predictions():
         except:
             return render_template('public/error.html')
     elif request.method == 'GET':
-        return render_template('public/arb_form.html')
+        df = display_arb_pred()
+        return render_template('public/display_arb.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
 
 
 @application.route('/trade', methods=['GET'])

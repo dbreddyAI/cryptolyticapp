@@ -6,6 +6,7 @@
 # It generates predictions with all arbitrage models from an S3 bucket and inserts
 # them into the arp table under the prediction schema in the database.
 # The function is set to run every 3 mins on a trigger.
+# Edit Config MemorySize: 256, Timeout: 175
 
 # imports
 import pandas as pd
@@ -418,18 +419,18 @@ def generate_predictions_arb(model_list):
     conn, cursor = create_conn(credentials)
     print('connected to db :)')
 
-    # # cnnect to S3 bucket
-    # s3 = boto3.resource('s3')
+    # # connect to S3 bucket
+    s3 = boto3.resource('s3')
     print('connected to S3')
 
     # # connect to S3 bucket locally to test
     # # make sure the bucket has public access
     # # all tr models should be in the bucket
     # Get access to our S3 service
-    s3 = boto3.resource('s3',
-                        aws_access_key_id='', # fill in access key
-                        aws_secret_access_key='' # fill in secret)
-    print('connected to S3')
+    # s3 = boto3.resource('s3',
+    #                     aws_access_key_id='', # fill in access key
+    #                     aws_secret_access_key='' # fill in secret)
+    # print('connected to S3')
 
     # fill in bucket name
     bucket = ''
@@ -565,14 +566,14 @@ def generate_predictions_arb(model_list):
             print('duplicates not inserted')
 
     # commit and close connection
-    # conn.commit()
+    conn.commit()
     conn.close()
 
     return 'function complete!'
 
 # for testing locally
-print(generate_predictions_arb(model_list))
+# print(generate_predictions_arb(model_list))
 
-# def lambda_handler(event, context):
-#     generate_predictions_arb(models)
-#     return 'succesfully inserted data'
+def lambda_handler(event, context):
+    generate_predictions_arb(model_list)
+    return 'succesfully inserted data'

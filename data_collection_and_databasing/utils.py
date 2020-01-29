@@ -1,16 +1,14 @@
 import psycopg2 as ps
 
 # Credentials
-credentials = {'POSTGRES_ADDRESS' : '#',
-               'POSTGRES_PORT' : '#',
-               'POSTGRES_USERNAME' : '#',
-               'POSTGRES_PASSWORD' : '#',
-               'POSTGRES_DBNAME' : '#',
-               'API_KEY' : '#'}
+credentials = {'POSTGRES_ADDRESS' : "",
+               'POSTGRES_PORT' : "",
+               'POSTGRES_USERNAME' : "",
+               'POSTGRES_PASSWORD' : "",
+               'POSTGRES_DBNAME' : ""}
 
 # Define postgres_db_conn function.
 def postgres_db_conn(credentials):
-
     # Create database connection.
     conn = ps.connect(host=credentials['POSTGRES_ADDRESS'],
                       database=credentials['POSTGRES_DBNAME'],
@@ -21,10 +19,8 @@ def postgres_db_conn(credentials):
     cur = conn.cursor()
     return conn, cur
 
-# Before running the functions below, add two schemas to
-# your PostgreSQL database, one named 'fiveminute', the other named 'onehour'.
 
-# Define currency pairs within each exchange and create the names of the 
+# Define currency pairs within each exchange and create the names of the
 # tables for each exchange.
 
 coinbase_pro_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'btc_usdc', 'dash_btc',
@@ -32,49 +28,55 @@ coinbase_pro_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'btc_usdc', 'dash_btc',
                       'eth_usd', 'eth_usdc', 'ltc_btc', 'ltc_usd', 'xrp_btc',
                       'xrp_usd', 'zec_usdc', 'zrx_usd']
 
-bitfinex_pairs = ['bch_btc', 'bch_usd', 'bch_usdt', 'btc_usd', 'btc_usdt', 
-                  'dash_btc', 'dash_usd', 'eos_btc', 'eos_usd', 'eos_usdt', 
+bitfinex_pairs = ['bch_btc', 'bch_usd', 'bch_usdt', 'btc_usd', 'btc_usdt',
+                  'dash_btc', 'dash_usd', 'eos_btc', 'eos_usd', 'eos_usdt',
                   'etc_usd', 'eth_btc', 'eth_usd', 'eth_usdt', 'ltc_btc',
                   'ltc_usd', 'ltc_usdt', 'xrp_btc', 'xrp_usd', 'zec_usd',
                   'zrx_usd']
-                  
+
 hitbtc_pairs = ['bch_btc', 'bch_usdt', 'btc_usdc', 'btc_usdt', 'dash_btc',
-                'dash_usdt', 'eos_btc', 'eos_usdt', 'etc_usdt', 'eth_btc', 
-                'eth_usdc', 'eth_usdt', 'ltc_btc', 'ltc_usdt', 'xrp_btc', 
+                'dash_usdt', 'eos_btc', 'eos_usdt', 'etc_usdt', 'eth_btc',
+                'eth_usdc', 'eth_usdt', 'ltc_btc', 'ltc_usdt', 'xrp_btc',
                 'xrp_usdt', 'zec_usdt', 'zrx_usdt']
 
 gemini_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'eth_btc', 'eth_usd',
                 'ltc_btc', 'ltc_usd', 'zec_usd']
 
 kraken_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'dash_btc', 'dash_usd',
-                'eos_btc', 'eos_usd', 'etc_usd', 'eth_btc', 'eth_usd', 
+                'eos_btc', 'eos_usd', 'etc_usd', 'eth_btc', 'eth_usd',
                 'ltc_btc', 'ltc_usd', 'xrp_btc', 'xrp_usd', 'zec_usd']
 
 hitbtc_table_list = ['hitbtc_' + pair for pair in hitbtc_pairs]
 
 bitfinex_table_list = ['bitfinex_' + pair for pair in bitfinex_pairs]
 
-coinbase_pro_table_list = ['coinbase_pro_' + pair for pair in 
+coinbase_pro_table_list = ['coinbase_pro_' + pair for pair in
                            coinbase_pro_pairs]
 
 gemini_table_list = ['gemini_' + pair for pair in gemini_pairs]
 
 kraken_table_list = ['kraken_' + pair for pair in kraken_pairs]
 
+
 # Define create_tables function.
 def create_tables(credentials):
-    '''Connects to a PostgreSQL database and adds tables to each respective 
+    '''Connects to a PostgreSQL database and adds tables to each respective
     schema.'''
 
     # Create connection and cursor to database.
-    conn, cur = create_conn(credentials)
-    
+    conn, cur = postgres_db_conn(credentials)
+
+    # Creating 3 schemas for storing data and predictions
+    cur.execute('''CREATE SCHEMA fiveminute;''')
+    cur.execute('''CREATE SCHEMA onehour;''')
+    cur.execute('''CREATE SCHEMA prediction;''')
+
     # Define schemas and table_list.
     schemas = ['fiveminute', 'onehour']
-    
-    table_list = (hitbtc_table_list + bitfinex_table_list + 
+
+    table_list = (hitbtc_table_list + bitfinex_table_list +
                   coinbase_pro_table_list + gemini_table_list + kraken_table_list)
-    
+
     # Loop through schemas and table_list.
     for schema in schemas:
         for table_name in table_list:
@@ -87,13 +89,40 @@ def create_tables(credentials):
             close float,
             base_volume float
             );'''.format(schema=schema, table_name=table_name))
-            
+
+    schema = 'prediction'
+    table_name = 'trp'
+
+    # creating trp table
+    cur.execute('''
+            CREATE TABLE {schema}.{table_name}
+            (p_time varchar(35),
+            c_time varchar(35),
+            exchange varchar(35),
+            trading_pair varchar(35),
+            prediction varchar(50)
+            );'''.format(schema=schema, table_name=table_name))
+
+    table_name = 'arp'
+
+    # creating arp table
+    cur.execute('''
+            CREATE TABLE {schema}.{table_name}
+            (p_time varchar(35),
+            c_time varchar(35),
+            exchange_1 varchar(35),
+            exchange_2 varchar(35),
+            trading_pair varchar(35),
+            prediction varchar(50)
+            );'''.format(schema=schema, table_name=table_name))
+
     # Commit and close. Verify that tables were created successfully.
     conn.commit()
-    
+
     print("Tables created successfully!")
     conn.close()
- 
+
+
 # Define insert_csv_to_db function.
 # Within Jupyter Lab, a folder entitled "data" was created. A folder for each exchange was
 # then created within the "data" folder. Each exchange folder then included csv files for all 
@@ -147,3 +176,6 @@ def drop_column(credentials):
     
     print("Column removed.")
     conn.close()
+
+
+postgres_db_conn(credentials)

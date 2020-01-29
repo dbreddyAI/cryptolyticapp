@@ -1,5 +1,8 @@
 import pandas as pd
 import psycopg2 as ps
+import datetime as dt
+from dateutil import tz
+from datetime import datetime
 from config import POSTGRES_DBNAME, POSTGRES_PASSWORD, POSTGRES_USERNAME, POSTGRES_PORT, POSTGRES_ADDRESS, API_KEY
 
 
@@ -48,23 +51,46 @@ def display_tr_pred():
     conn, cur = create_conn(credentials)
 
     # Gets last 20 prediction results from trp table
-    cur.execute("""SELECT * FROM tr_pred
-                    ORDER by time desc limit 10;""")
+    cur.execute("""SELECT * FROM prediction.trp
+                    ORDER by time desc limit 50;""")
 
     result = cur.fetchall()
 
     # creates dataframe from results and rename columns
     result = pd.DataFrame(result)
-    result = result.rename(columns={0: 'time', 1: 'exchange', 2: 'trading_pair', 3: 'prediction'})
+    result = result.rename(columns={0: 'Prediction Time', 1: 'c_time', 2: 'Exchange', 3: 'Trading Pair', 4: 'Prediction'})
 
     # filter predictions to get one for each combination
-    result = result.drop_duplicates(subset=['exchange','trading_pair'])
+    result = result.drop_duplicates(subset=['Exchange', 'Trading Pair'])
 
     # creating new column with exchange_trading_pair name combined
-    result['period'] = result['exchange'] +'_'+ result['trading_pair']
+    result['Period'] = result['Exchange'] + '_' + result['Trading Pair']
     # use the values in period to rename them with the dict 'model_periods' values
-    result['period'] = result['period'].apply(lambda x: model_periods[x])
+    result['Period'] = result['Period'].apply(lambda x: model_periods[x])
 
+    # drop unnecessary columns
+    result.drop(columns=['c_time'], inplace=True)
+
+    # Creating List of prediction time values
+    pt = result['Prediction Time'].values
+
+    # getting UTC timezone
+    from_zone = tz.gettz('UTC')
+    # getting PST timezone
+    to_zone = tz.gettz('US/Pacific')
+
+    nt = []
+    # Looping thru 'p_time' values to change time to PST
+    for p in pt:
+        utc = datetime.strptime(str(p), '%Y-%m-%d %H:%M:%S')
+        utc = utc.replace(tzinfo=from_zone)
+        pcf = utc.astimezone(to_zone)
+
+        # append new PST time to nt list
+        nt.append(str(pcf)[:-6] + ' PST')
+
+    # Give new PST time value to 'p_time" column
+    result['Prediction Time'] = nt
     # close connection
     conn.close()
 
@@ -79,17 +105,50 @@ def display_arb_pred():
     conn, cur = create_conn(credentials)
 
     # Gets last 500 prediction results from arp table
-    cur.execute("""SELECT * FROM arb_pred
-                   ORDER by time desc limit 10;""")
+    cur.execute("""SELECT * FROM prediction.arp
+                   ORDER by p_time desc limit 50;""")
     result = cur.fetchall()
 
     # creates dataframe from results and rename columns
     result = pd.DataFrame(result)
     result = result.rename(
-        columns={0: 'time', 1: 'exchange_1', 2: 'exchange_2', 3: 'trading_pair', 4: 'prediction'})
+        columns={0: 'Prediction Time', 1: 'c_time', 2: 'Exchange 1', 3: 'Exchange 2', 4: 'Trading Pair', 5: 'Prediction'})
 
     # result = result.drop(columns='c_time')
-    result = result.drop_duplicates(subset=['exchange_1', 'exchange_2', 'trading_pair'])
+    result = result.drop_duplicates(subset=['Exchange 1', 'Exchange 2', 'Trading Pair'])
+
+    # converts p_time column to datetime
+    result['datetime'] = pd.to_datetime(result['Prediction Time'])
+
+    # create time threshold to 15 minutes, to only return results in the last 15 min
+    # filters result to the last 15 min
+    t = dt.datetime.utcnow() - dt.timedelta(minutes=15)
+    result = result[result['datetime'] > t]
+    print(result)
+    print(t)
+    # drop unnecessary columns
+    result.drop(columns=['datetime', 'c_time'], inplace=True)
+
+    # creating a list of prediction time values
+    pt = result['Prediction Time'].values
+
+    # Getting UTC timezone
+    from_zone = tz.gettz('UTC')
+    # Getting PST timezone
+    to_zone = tz.gettz('US/Pacific')
+
+    nt = []
+    # Looping thru 'p_time' values to change time to PST
+    for p in pt:
+        utc = datetime.strptime(str(p), '%Y-%m-%d %H:%M:%S')
+        utc = utc.replace(tzinfo=from_zone)
+        pcf = utc.astimezone(to_zone)
+
+        # appends new time to nt list
+        nt.append(str(pcf)[:-6] + ' PST')
+
+    # give new PST time value to 'p_time" column
+    result['Prediction Time'] = nt
 
     # close connection to DB
     conn.close()
