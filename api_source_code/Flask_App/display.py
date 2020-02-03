@@ -52,7 +52,7 @@ def display_tr_pred():
 
     # Gets last 20 prediction results from trp table
     cur.execute("""SELECT * FROM prediction.trp
-                    ORDER by time desc limit 50;""")
+                    ORDER by p_time desc limit 50;""")
 
     result = cur.fetchall()
 

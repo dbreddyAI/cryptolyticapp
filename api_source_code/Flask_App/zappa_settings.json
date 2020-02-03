@@ -1,0 +1,10 @@
+{
+    "crypto": {
+        "app_function": "application.application",
+        "aws_region": "us-east-1",
+        "profile_name": "default",
+        "project_name": "flask-app",
+        "runtime": "python3.7",
+        "s3_bucket": "serverlesslambda"
+    }
+}
