@@ -1,6 +1,6 @@
 # Cryptolytic
 
-You can find the project at [Cryptolytic](http://www.cryptolyticapp.com/).
+You can view the project demo at https://youtu.be/ikKwhEgnNgw.
 
 ## Contributers
 ### Team Lead
@@ -26,7 +26,6 @@ You can find the project at [Cryptolytic](http://www.cryptolyticapp.com/).
 ## Project Overview
 
 
-[Trello Board](https://trello.com/invite/b/HY6gCjh2/3f8eb169fd2f1e2415abf535c20accb3/labs17-cryptolytic)
 
 [Product Canvas](https://www.notion.so/e563b27ab8e94ce2a3f7b536fc365715?v=3781e3eb9e72447f9262ebacd1e21fa9)
 
@@ -35,11 +34,14 @@ Cryptolytic is a platform for beginners tinkering with cryptocurrency to the sea
 
 
 ### Figma Prototype 
-<img src="https://github.com/alqu7095/Cryptolytic_README/blob/master/cryptolytic_thumbnail.png?raw=true" width = "500" />
+<img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic_thumbnail.png?raw=true" width = "1000" />
+
+### Application Architechture
+<img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic_schema.png?raw=true" width = "1000" />
 
 ### Tech Stack
 
-Python, AWS, PostgreSQL, SQL, Flask
+Python, SQL, Flask, AWS (Elastic Beanstalk, RDS, Lambda Functions, Cloud9, KMS, Sagemaker), PostgreSQL
 
 ### Predictions
 
@@ -153,10 +155,4 @@ Remember that this project is licensed under the MIT license, and by submitting 
 ### Attribution
 
 These contribution guidelines have been adapted from [this good-Contributing.md-template](https://gist.github.com/PurpleBooth/b24679402957c63ec426).
-
-## Documentation
-
-See [Backend Documentation](_link to your backend readme here_) for details on the backend of our project.
-
-See [Front End Documentation](_link to your front end readme here_) for details on the front end of our project.
 
